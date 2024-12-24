@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUTIARA FLORIST</title>
+    <style>
+        /* Styling Dasar */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; }
+        header { background-color: #007BFF; color: white; text-align: center; padding: 15px; }
+        h1, h2 { margin-bottom: 10px; }
+        main { padding: 20px; max-width: 900px; margin: auto; }
+        input, button { padding: 8px; margin: 5px; border-radius: 5px; }
+        button { cursor: pointer; }
+
+        img {
+            height: 20%;
+            width: 20%;
+        }
+        
+        /* Produk */
+        .product { display: flex; justify-content: space-between; align-items: center; 
+                   border: 1px solid #ddd; padding: 15px; margin: 10px 0; background: white; }
+        .product button { background-color: #28a745; color: white; border: none; }
+        .product button:hover { background-color: #218838; }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .star {
+            color: gold;
+            font-size: 18px;
+        }
+
+        /* Keranjang */
+        #cart { border: 1px solid #ddd; padding: 15px; background-color: white; border-radius: 5px; }
+        #cart ul { list-style: none; padding: 0; }
+        #cart li { display: flex; justify-content: space-between; margin: 5px 0; }
+        #cart li button { background-color: #dc3545; color: white; border: none; }
+        #cart li button:hover { background-color: #c82333; }
+        #total { text-align: right; font-weight: bold; margin-top: 10px; }
+
+        /* Checkout */
+        #checkout-form { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px; }
+        #checkout-form input, #checkout-form button { display: block; width: 100%; margin: 5px 0; }
+        #checkout-form button { background-color: #007BFF; color: white; border: none; }
+        #checkout-form button:hover { background-color: #0056b3; }
+
+        /* Footer */
+        footer { text-align: center; padding: 20px; background-color: #333; color: white; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MUTIARA FLORIST</h1>
+    </header>
+
+    <main>
+        <!-- Filter Produk -->
+        <section>
+            <h2>Filter Produk</h2>
+            <input type="text" id="search" placeholder="Cari produk..." onkeyup="filterProducts()">
+        </section>
+
+        <!-- Daftar Produk -->
+        <section id="products">
+            <h2>Produk Kami</h2>
+            <div class="product" data-name="Mawar Merah" data-price="50000">
+                <img src="https://www.clipartbest.com/cliparts/Rid/ar5/Ridar5ryT.jpg" alt="Mawar Merah">
+                <div>Mawar Merah - Rp 50.000</div>
+                <button onclick="addToCart('Mawar Merah', 50000)">Tambah ke Keranjang</button>
+                <div class="rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9734;</span>
+                </div>
+            </div>
+            <div class="product" data-name="Mawar Putih" data-price="75000">
+                <img src="https://1.bp.blogspot.com/-90w1AP_cBdc/UlQF2HuXbrI/AAAAAAAAAhs/66c-zwkztRs/s1600/bunga-mawar-putih2.jpg" alt="Mawar Putih">
+                <div>Mawar Putih - Rp 75.000</div>
+                <button onclick="addToCart('Mawar Putih', 75000)">Tambah ke Keranjang</button>
+                <div class="rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9734;</span>
+                    <span class="star">&#9734;</span>
+                </div>
+            </div>
+            <div class="product" data-name="Mawar Pink" data-price="100000">
+                <img src="https://s3.bukalapak.com/img/8134914691/w-1000/Biji_Benih_Bibit_Bunga_Mawar_Pink_Pink_Rose.jpg" alt="Mawar Pink">
+                <div>Mawar Pink - Rp 100.000</div>
+                <button onclick="addToCart('Mawar Pink', 100000)">Tambah ke Keranjang</button>
+                <div class="rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keranjang Belanja -->
+        <section id="cart">
+            <h2>Keranjang Belanja</h2>
+            <ul id="cart-items"></ul>
+            <p id="total">Total: Rp 0</p>
+        </section>
+
+        <!-- Formulir Checkout -->
+        <section id="checkout-form">
+            <h2>Checkout</h2>
+            <input type="text" id="customer-name" placeholder="Nama Anda" required>
+            <input type="text" id="customer-address" placeholder="Alamat Anda" required>
+            <select id="payment-method">
+                <option value="">Pilih Metode Pembayaran</option>
+                <option value="Transfer Bank">Transfer Bank</option>
+                <option value="COD">COD</option>
+            </select>
+            <button onclick="checkout()">Selesaikan Pembelian</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Web Penjualan Lengkap. Semua hak dilindungi.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            if (confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
+                total -= cart[index].price;
+                cart.splice(index, 1);
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalElement = document.getElementById('total');
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                cartItems.innerHTML += ` 
+                    <li>${item.name} - Rp ${item.price.toLocaleString()} 
+                        <button onclick="removeFromCart(${index})">Hapus</button>
+                    </li>`;
+            });
+            totalElement.textContent = `Total: Rp ${total.toLocaleString()}`;
+        }
+
+        function filterProducts() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+            products.forEach(product => {
+                const name = product.getAttribute('data-name').toLowerCase();
+                product.style.display = name.includes(searchValue) ? '' : 'none';
+            });
+        }
+
+        function checkout() {
+            const name = document.getElementById('customer-name').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const payment = document.getElementById('payment-method').value;
+
+            if (!name || !address || !payment) {
+                alert("Silakan lengkapi semua data checkout!");
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert("Keranjang belanja Anda kosong!");
+                return;
+            }
+
+            alert(`Terima kasih, ${name}! Pesanan Anda akan dikirim ke ${address}.\nMetode Pembayaran: ${payment}.\nTotal: Rp ${total.toLocaleString()}`);
+            
+            // Reset keranjang
+            cart = [];
+            total = 0;
+            updateCart();
+            document.getElementById('checkout-form').reset();
+        }
+    </script>
+</body>
+</
